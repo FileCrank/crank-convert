@@ -7,7 +7,7 @@ use convert_proc::Convertable;
     name="HTML",
     extensions=["html"],
     conversions={
-        TXT => convert_txt
+        TXT: convert_txt
     }
 )]
 pub struct HTML {

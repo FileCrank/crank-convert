@@ -2,6 +2,7 @@ extern crate proc_macro;
 use proc_macro::{Literal, TokenStream};
 use quote::quote;
 use syn::{DeriveInput, FieldsNamed, FieldsUnnamed, Ident, parse_macro_input};
+use crate::utils::parse_arguments;
 
 struct ConvertableOpts {
     pub ident: Ident,
@@ -30,12 +31,8 @@ fn gen_convertable_output(opts: ConvertableOpts) -> TokenStream {
 
 pub fn convertable_derive(input: TokenStream) -> TokenStream {
     let DeriveInput { data, ident, attrs, .. } = parse_macro_input!(input);
-    let args = parse_macro_input!(attrs as AttributeArgs);
 
-    for attr in attrs {
-        println!("Attr.path is {:?}", attr.path);
-        println!("Attr tokens are {:?}", attr.tokens);
-    }
+    parse_arguments(attrs);
 
     //println!("Attributes are {:?}", derive_input.attrs);
     /*
