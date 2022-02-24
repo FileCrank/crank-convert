@@ -1,0 +1,13 @@
+[package]
+name = "crank-convert"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["native"]
+# The "native" trait defines whether to use multithreading and std::Fs. Leave it off for webassembly
+native = []
+
+[dependencies]
+lazy_static = "1.4.0"
+convert-proc = { path = "../convert-proc" }

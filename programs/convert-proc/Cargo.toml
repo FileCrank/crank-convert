@@ -1,0 +1,15 @@
+[package]
+name = "convert-proc"
+version = "0.1.0"
+edition = "2021"
+
+
+[features]
+debug = []
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = { version="1.0", features=["full", "extra-traits"] }
+quote = "1.0"

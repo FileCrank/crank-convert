@@ -1,18 +1,18 @@
-#[cfg(feature="std")]
+#[cfg(feature="native")]
 use std::path::Path;
 
 pub struct Opts<'a> {
     pub data: Option<Box<Vec<u8>>>,
 
-    #[cfg(feature="std")]
+    #[cfg(feature="native")]
     pub file: Option<&'a Path>,
 
-    #[cfg(feature="std")]
+    #[cfg(feature="native")]
     pub stream: bool
 }
 
-impl Default for Opts {
-    #[cfg(feature="std")]
+impl Default for Opts<'_> {
+    #[cfg(feature="native")]
     fn default() -> Self {
         Self {
             data: None,
@@ -21,7 +21,7 @@ impl Default for Opts {
         }
     }
 
-    #[cfg(not(feature="std"))]
+    #[cfg(not(feature="native"))]
     fn default() -> Self {
         Self {
             data: None
@@ -29,9 +29,9 @@ impl Default for Opts {
     }
 }
 
-impl Opts {
-    #[cfg(feature="std")]
-    pub fn from_file(path: &Path) -> Self {
+impl<'a> Opts<'a> {
+    #[cfg(feature="native")]
+    pub fn from_file(path: &'a Path) -> Self {
         Self {
             data: None,
             file: Some(path),
