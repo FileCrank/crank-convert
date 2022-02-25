@@ -2,6 +2,7 @@ extern crate proc_macro;
 use darling::{FromDeriveInput, FromField, FromMeta};
 use lazy_static::lazy_static;
 use proc_macro::{Literal, TokenStream};
+use std::collections::HashMap;
 use quote::{format_ident, quote};
 use std::ops::Deref;
 use std::str::FromStr;
@@ -42,6 +43,7 @@ struct ConvertsTo {
 
 fn gen_convertable_output(opts: ConvertableOpts) -> TokenStream {
     let ident = opts.ident;
+    let name = opts.name;
     let extensions_name = format_ident!("{}_EXTENSIONS", ident);
     let extensions = opts.extension;
     // We'll use PHF to generate a static map for the extensions,
@@ -65,11 +67,19 @@ fn gen_convertable_output(opts: ConvertableOpts) -> TokenStream {
         #phf_parsed;
 
         impl Convertable for #ident {
+            const NAME: &'static str = #name;
 
+            fn extensions(&self) -> phf::Set<&'static str> {
+                #extensions_name
+            }
         }
 
     };
     output.into()
+}
+
+fn parse_conversions(input: DeriveInput) -> HashMap<Ident, Ident> {
+
 }
 
 pub fn convertable_derive(input: TokenStream) -> TokenStream {

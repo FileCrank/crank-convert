@@ -1,3 +1,3 @@
-mod html;
-mod rtf;
-mod txt;
+pub mod html;
+pub mod rtf;
+pub mod txt;

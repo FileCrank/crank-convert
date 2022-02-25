@@ -1,5 +1,7 @@
 use crate::Opts;
 use std::collections::HashSet;
+use std::io::{Read, Write};
+use phf;
 
 /// The master trait that defines how one data type can be converted into another -
 /// each file type will implement this, along with the
@@ -13,8 +15,10 @@ pub trait Convertable {
     }
 
     /// The extensions that are recognized for this data type
-    fn extensions(&self) -> HashSet<&'static str>;
+    fn extensions(&self) -> phf::Set<&'static str>;
 
     /// The types that this can be converted into
-    fn supported_conversions(&self) -> HashSet<&'static str>;
+    fn supported_conversions(&self) -> phf::Set<&'static str>;
+
+    fn get_buf<T>(&self) -> T where T: Read + Write;
 }
