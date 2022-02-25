@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use crate::Opts;
+use std::collections::HashSet;
 
 /// The master trait that defines how one data type can be converted into another -
 /// each file type will implement this, along with the

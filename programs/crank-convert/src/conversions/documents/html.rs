@@ -1,15 +1,10 @@
 use crate::conversions::convertable::Convertable;
 
-use convert_proc::Convertable;
 use crate::conversions::documents::txt::TXT;
+use convert_proc::Convertable;
 
 #[derive(Convertable)]
-#[convertable(
-    name="HTML",
-    extension="html",
-    extension="htm"
-)]
-#[converts(to="TXT", handler="convert_to_txt")]
+#[convertable(name = "HTML", extension = "html", extension = "htm")]
 pub struct HTML {}
 
 impl HTML {

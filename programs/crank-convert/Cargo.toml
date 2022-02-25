@@ -10,4 +10,5 @@ native = []
 
 [dependencies]
 lazy_static = "1.4.0"
+phf = { version = "0.10", features = ["macros"] }
 convert-proc = { path = "../convert-proc" }
