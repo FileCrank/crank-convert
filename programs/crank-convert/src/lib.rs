@@ -9,6 +9,7 @@ pub mod constants;
 pub mod errors;
 pub mod utils;
 pub mod formats;
+pub mod file_types;
 
 pub fn main(opts: Opts) {
     // Initialize logging if we're running natively. If we're not,
