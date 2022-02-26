@@ -1,14 +1,20 @@
 #[cfg(feature = "native")]
 use std::path::Path;
+#[cfg(feature="native")]
+use log::LevelFilter;
 
+#[derive(Debug)]
 pub struct Opts<'a> {
-    pub data: Option<Box<Vec<u8>>>,
+    pub data: Option<Box<[u8]>>,
 
     #[cfg(feature = "native")]
     pub file: Option<&'a Path>,
 
     #[cfg(feature = "native")]
     pub stream: bool,
+
+    #[cfg(feature="native")]
+    pub log_level: LevelFilter
 }
 
 impl Default for Opts<'_> {
@@ -18,6 +24,7 @@ impl Default for Opts<'_> {
             data: None,
             file: None,
             stream: false,
+            log_level: LevelFilter::Info,
         }
     }
 

@@ -13,3 +13,5 @@ lazy_static = "1.4.0"
 phf = { version = "0.10", features = ["macros"] }
 convert-proc = { path = "../convert-proc" }
 thiserror = "1.0"
+simple_logger = "2.1"
+log = "0.4"

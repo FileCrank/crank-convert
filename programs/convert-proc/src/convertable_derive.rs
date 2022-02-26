@@ -73,13 +73,12 @@ fn gen_convertable_output(opts: ConvertableOpts) -> TokenStream {
                 #extensions_name
             }
         }
-
     };
     output.into()
 }
 
 fn parse_conversions(input: DeriveInput) -> HashMap<Ident, Ident> {
-
+    todo!()
 }
 
 pub fn convertable_derive(input: TokenStream) -> TokenStream {
