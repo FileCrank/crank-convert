@@ -1,12 +1,11 @@
-use crate::formats::data_format::DataFormat;
 use crate::errors::{ConversionError, Result};
+use crate::formats::data_format::DataFormat;
 
-/// Simply read the data from `from` to `to`
-pub fn simple_copy<F, T>(from: &mut Box<F>,
-                   to: &mut Box<T>) -> Result<usize>
-where F: DataFormat, T: DataFormat {
-    match from.read(to) {
+/// Simply transfer the data from the source
+pub fn simple_copy(from: &mut Box<dyn DataFormat>,
+                   to: &mut Box<dyn DataFormat>) -> Result<usize> {
+    match to.consume_buf(from) {
         Ok(u) => Ok(u),
-        Err(e) => ConversionError::IOError(e)
+        Err(e) => Err(ConversionError::IOError(e))
     }
 }

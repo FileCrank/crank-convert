@@ -1,10 +1,7 @@
-use std::io::{BufReader, BufWriter};
-use crate::formats::data_holder::DataHolder;
-use crate::utils::ReadWrite;
+use std::io::{Read, Write};
+use std::ops::Deref;
+use crate::errors::Result;
 
-pub trait DataFormat: ReadWrite {
-    fn new(data: DataHolder);
-
-    // Don't implement Default because of size, but require the same behavior
-    fn default() -> Self;
+pub trait DataFormat: Read + Write {
+    fn consume_buf(&mut self, buf: &mut Box<dyn DataFormat>) -> std::io::Result<(usize)>;
 }

@@ -5,7 +5,7 @@ use log::LevelFilter;
 
 #[derive(Debug)]
 pub struct Opts<'a> {
-    pub data: Option<Box<[u8]>>,
+    pub data: Option<Box<Vec<u8>>>,
 
     #[cfg(feature = "native")]
     pub file: Option<&'a Path>,

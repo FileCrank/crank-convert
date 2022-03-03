@@ -1,3 +1,4 @@
+use std::any::Any;
 #[cfg(feature="native")]
 use std::fs::File;
 use std::io::{Read, Write};
@@ -13,7 +14,7 @@ impl DataHolder {
 
     #[cfg(feature="native")]
     #[inline]
-    fn get_inner(&mut self) -> &mut Box<dyn ReadWrite>{
+    fn get_inner(&mut self) -> &mut Box<[]> {
         match self {
             DataHolder::Raw(r) => r,
             DataHolder::File(f) => f

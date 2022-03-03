@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-#[derive(Error)]
+#[derive(Error, Debug)]
 pub enum ConversionError {
 
     #[error("Got IO Error while trying to perform copy")]

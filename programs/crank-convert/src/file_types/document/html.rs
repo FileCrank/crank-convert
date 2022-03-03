@@ -1,9 +1,9 @@
 use lazy_static::lazy_static;
 use crate::converts_to;
 use crate::file_types::file_type::{FileType};
-use crate::formats::simple_data::SimpleDataFormat;
 use crate::conversions::simple_copy;
 use crate::file_types::document::text::TXT;
+use crate::formats::simple_data_format::SimpleDataFormat;
 
 lazy_static! {
     pub static ref HTML: FileType<SimpleDataFormat> = FileType{
