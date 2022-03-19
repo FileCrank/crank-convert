@@ -10,45 +10,51 @@ pub enum DataHolder {
     File(Box<File>)
 }
 
-impl DataHolder {
 
-    #[cfg(feature="native")]
-    #[inline]
-    fn get_inner(&mut self) -> &mut Box<[]> {
-        match self {
-            DataHolder::Raw(r) => r,
-            DataHolder::File(f) => f
-        }
-    }
-
-    #[cfg(not(feature="native"))]
-    #[inline]
-    fn get_inner(&mut self) -> &mut Box<dyn ReadWrite> {
-        match self {
-            DataHolder::Raw(r) => r,
-            _ => {
-                unreachable!("Only raw data should be accessible in non-native");
-            }
-        }
-    }
+fn read_raw(data: &mut Vec<u8>, buf: &mut [u8]) -> std::io::Result<usize> {
+    data.as_slice().read(buf)
 }
+
+#[cfg(feature="native")]
+fn read_file(file: &mut File, buf: &mut [u8]) -> std::io::Result<usize> {
+    file.read(buf)
+}
+
 
 impl Read for DataHolder {
 
-    fn read(& mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        self.get_inner().read(buf)
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        if cfg!(feature="native") {
+            match self {
+                DataHolder::Raw(r) => read_raw(r, buf),
+                DataHolder::File(f) => read_file(f, buf)
+            }
+        } else {
+            match self {
+                DataHolder::Raw(r) => read_raw(r, buf),
+                _ => {
+                    unreachable!("Only raw data should be accessible in non-native");
+                }
+            }
+        }
     }
 }
 
 impl Write for DataHolder {
 
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        self.get_inner().write(buf)
+       match self {
+           DataHolder::Raw(r) => r.write(buf),
+           DataHolder::File(f) => f.write(buf),
+       }
     }
 
 
     fn flush(&mut self) -> std::io::Result<()> {
-       self.get_inner().flush()
+       match self {
+           DataHolder::Raw(r) => r.flush(),
+           DataHolder::File(f) => f.flush()
+       }
     }
 }
 

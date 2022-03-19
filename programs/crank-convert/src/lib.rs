@@ -10,6 +10,9 @@ pub mod errors;
 pub mod utils;
 pub mod formats;
 pub mod file_types;
+pub mod macros;
+
+pub use macros::*;
 
 pub fn main(opts: Opts) {
     // Initialize logging if we're running natively. If we're not,
@@ -19,5 +22,4 @@ pub fn main(opts: Opts) {
     SimpleLogger::new().with_level(opts.log_level).init().unwrap();
 
     log::debug!("Starting file conversion with opts {:?}", opts);
-
 }

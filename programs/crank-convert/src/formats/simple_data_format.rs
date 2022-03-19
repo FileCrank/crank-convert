@@ -8,7 +8,7 @@ pub struct SimpleDataFormat {
 
 impl Read for SimpleDataFormat {
     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        self.inner.read(buf)
+        self.inner.as_slice().read(buf)
     }
 }
 
@@ -22,7 +22,17 @@ impl Write for SimpleDataFormat {
     }
 }
 
-impl DataFormat for SimpleDataFormat {
+impl From<&'_ mut dyn DataFormat<'_>> for SimpleDataFormat {
+    fn from(source: &'_ mut dyn DataFormat) -> Self {
+        let mut inner = Vec::new();
+        source.read(inner.as_mut_slice());
+        Self {
+            inner
+        }
+    }
+}
+
+impl DataFormat<'_> for SimpleDataFormat {
     fn consume_buf(&mut self, buf: &mut Box<dyn DataFormat>) -> std::io::Result<usize> {
         buf.read_to_end(&mut self.inner)
     }
