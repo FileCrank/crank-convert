@@ -1,3 +1,2 @@
-pub mod file_type;
 pub mod document;
-
+pub mod file_type;

@@ -1,7 +1,7 @@
 #[cfg(feature = "native")]
-use std::path::Path;
-#[cfg(feature="native")]
 use log::LevelFilter;
+#[cfg(feature = "native")]
+use std::path::Path;
 
 #[derive(Debug)]
 pub struct Opts<'a> {
@@ -13,8 +13,8 @@ pub struct Opts<'a> {
     #[cfg(feature = "native")]
     pub stream: bool,
 
-    #[cfg(feature="native")]
-    pub log_level: LevelFilter
+    #[cfg(feature = "native")]
+    pub log_level: LevelFilter,
 }
 
 impl Default for Opts<'_> {
