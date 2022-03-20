@@ -15,34 +15,32 @@ macro_rules! converts_to {
 }
 
 /// A HashMap mapping
-pub type ConversionMap = HashMap<&'static FileType,
-    Box<Conversion<dyn DataFormat, dyn DataFormat>>
+pub type ConversionMap<'a> = HashMap<&'a FileType<'a>,
+    Conversion
 >;
 
-#[derive(Eq, PartialEq)]
-pub struct FileType {
+pub struct FileType<'a> {
     // Names should be unique across the project,
     pub name: &'static str,
     pub extensions: HashSet<&'static str>,
-    pub conversions: ConversionMap,
+    pub conversions: ConversionMap<'a>,
 
-    pub initialize: Box<fn(&DataHolder) -> dyn DataFormat>,
-    pub empty: Box<fn() -> dyn DataFormat>
+    pub initialize: Box<fn(&mut DataHolder) -> DataFormat>,
+    pub empty: Box<fn() -> DataFormat>
 }
 
-/*
-impl PartialEq<Self> for FileType<T> {
+
+impl<'a> PartialEq for FileType<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.name == other.name
     }
 }
 
-impl<T: DataFormat> Eq for FileType<T> {}
+
+impl<'a> Eq for FileType<'a> {}
 
 
- */
-
-impl Hash for FileType {
+impl<'a> Hash for FileType<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.name.hash(state)
     }

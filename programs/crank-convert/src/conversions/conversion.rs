@@ -3,13 +3,12 @@ use crate::file_types::file_type::FileType;
 use crate::formats::data_format::DataFormat;
 use std::cmp::Eq;
 
-pub type Conversion<F, T> = Box<fn(&mut Box<F>, &mut Box<T>) -> Result<usize>>;
+pub type Conversion = Box<fn(&mut Box<DataFormat>, &mut Box<DataFormat>) -> Result<usize>>;
 
-pub fn execute_conversion<F, T>(from_data: &mut Box<F>,
-                                to_file_type: FileType,
-                                conversion: Conversion<F, T>) -> Result<Box<T>>
-where F: DataFormat, T: DataFormat {
-    let mut empty: Box<T> = Box::new((to_file_type.empty)().into());
+pub fn execute_conversion(from_data: &mut Box<DataFormat>,
+                          to_file_type: FileType,
+                          conversion: Conversion) -> Result<Box<DataFormat>> {
+    let mut empty: Box<DataFormat> = Box::new((to_file_type.empty)());
     match conversion(from_data, &mut empty) {
         Ok(bytes_converted) => {
             log::debug!("Successfully transferred {} bytes over", bytes_converted);
