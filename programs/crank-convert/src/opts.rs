@@ -2,10 +2,21 @@
 use log::LevelFilter;
 #[cfg(feature = "native")]
 use std::path::Path;
+use crate::file_types::document::text::TXT;
+use crate::file_types::file_type::FileType;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
+pub enum OptFileType<'a> {
+    Name(String),
+    Type(&'a FileType<'static>)
+}
+
+#[derive(Debug, Clone)]
 pub struct Opts<'a> {
-    pub data: Option<Box<Vec<u8>>>,
+    pub data: Option<&'a Box<Vec<u8>>>,
+
+    pub from_file_type: Option<OptFileType<'a>>,
+    pub to_file_type: OptFileType<'a>,
 
     #[cfg(feature = "native")]
     pub file: Option<&'a Path>,
@@ -22,6 +33,8 @@ impl Default for Opts<'_> {
     fn default() -> Self {
         Self {
             data: None,
+            from_file_type: None,
+            to_file_type: OptFileType::Name("".to_string()),
             file: None,
             stream: false,
             log_level: LevelFilter::Info,
@@ -30,7 +43,11 @@ impl Default for Opts<'_> {
 
     #[cfg(not(feature = "native"))]
     fn default() -> Self {
-        Self { data: None }
+        Self {
+            data: None,
+            from_file_type: None,
+            to_file_type: OptFileType::Name("".to_string())
+        }
     }
 }
 
@@ -46,7 +63,7 @@ impl<'a> Opts<'a> {
 
     pub fn from_data(data: Box<Vec<u8>>) -> Self {
         Self {
-            data: Some(data),
+            data: Some(&data),
             ..Self::default()
         }
     }

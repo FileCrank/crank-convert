@@ -6,7 +6,7 @@ pub type Conversion = fn(&mut Box<DataFormat>, &mut Box<DataFormat>) -> Result<u
 
 pub fn execute_conversion(
     from_data: &mut Box<DataFormat>,
-    to_file_type: FileType,
+    to_file_type: &FileType,
     conversion: Conversion,
 ) -> Result<Box<DataFormat>> {
     let mut empty: Box<DataFormat> = Box::new((to_file_type.empty)());
