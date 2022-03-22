@@ -15,7 +15,7 @@ pub enum ConversionError {
     FileTypeNotFoundError(String),
 
     #[error("File type of source file not provided")]
-    FileTypeNotProvidedError
+    FileTypeNotProvidedError,
 }
 
 pub type Result<T> = std::result::Result<T, ConversionError>;

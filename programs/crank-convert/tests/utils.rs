@@ -1,4 +1,1 @@
-
-pub fn conversion_test(file: &'static str) {
-
-}
+pub fn conversion_test(file: &'static str) {}

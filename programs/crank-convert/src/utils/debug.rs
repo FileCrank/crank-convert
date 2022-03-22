@@ -1,7 +1,7 @@
 // Debugging code, formatters, etc.
 
-use std::fmt::{Debug, Formatter};
 use crate::file_types::file_type::FileType;
+use std::fmt::{Debug, Formatter};
 
 impl Debug for FileType<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
