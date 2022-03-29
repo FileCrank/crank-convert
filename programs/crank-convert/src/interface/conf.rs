@@ -2,7 +2,6 @@ use crate::errors::ConversionError::{FileTypeNotFoundError, FileTypeNotProvidedE
 use crate::errors::{ConversionError::InvalidConfigurationError, Result};
 use crate::file_types::file_type::FileType;
 use crate::formats::data_holder::DataHolder;
-use crate::interface::type_names::{FILE_TYPE_EXTENSIONS, FILE_TYPE_NAMES};
 use crate::opts::OptFileType;
 use crate::Opts;
 use std::ffi::OsString;
@@ -39,7 +38,7 @@ fn parse_opts_holder(opts: &Opts) -> Result<DataHolder> {
     }
 }
 
-pub fn parse_opt_file_type<'a>(oft: &'a OptFileType<'a>) -> Result<&'a FileType<'static>> {
+pub fn parse_opt_file_type<'a>(oft: &'a OptFileType<'a>) -> Result<&'a FileType> {
     match oft {
         OptFileType::Name(s) => {
             if let Some(ft) = FILE_TYPE_NAMES.get(&s.as_str()) {
@@ -67,13 +66,14 @@ fn parse_extension_if_file() -> Result<&'static str> {
     Err(FileTypeNotProvidedError)
 }
 
-fn parse_from_file_type<'a>(opts: &Opts<'a>) -> Result<&'a FileType<'static>> {
+fn parse_from_file_type<'a>(opts: &Opts<'a>) -> Result<&'a FileType> {
     match opts.from_file_type {
         Some(ft) => parse_opt_file_type(ft),
         None => {
             let extension_raw = parse_extension_if_file(opts)?;
             let extension = extension_raw.to_str().unwrap();
-            if let Some(ft) = FILE_TYPE_EXTENSIONS.get(extension) {
+            let ext_res = FILE_TYPE_EXTENSIONS.deref().get(extension);
+            if let Some(ft) = ext_res {
                 Ok(ft.deref())
             } else {
                 Err(FileTypeNotProvidedError)
@@ -83,18 +83,22 @@ fn parse_from_file_type<'a>(opts: &Opts<'a>) -> Result<&'a FileType<'static>> {
 }
 
 pub struct ConversionConf<'a> {
-    pub from: &'a FileType<'static>,
-    pub to: &'a FileType<'static>,
+    pub from: &'a FileType,
+    pub to: &'a FileType,
     pub holder: DataHolder,
 }
 
 pub fn parse_validate_opts(opts: Opts) -> Result<ConversionConf> {
     match parse_opts_holder(&opts) {
-        Ok(holder) => Ok(ConversionConf {
-            from: parse_from_file_type(&opts)?,
-            to: parse_opt_file_type(opts.to_file_type)?,
-            holder,
-        }),
+        Ok(holder) => {
+            let from = parse_from_file_type(&opts)?;
+            let to = parse_opt_file_type(opts.to_file_type)?;
+            Ok(ConversionConf {
+                from,
+                to,
+                holder,
+            })
+        },
         Err(e) => Err(e),
     }
 }

@@ -9,7 +9,7 @@ use std::path::Path;
 #[derive(Clone, Debug)]
 pub enum OptFileType<'a> {
     Name(String),
-    Type(&'a FileType<'static>),
+    Type(&'a FileType),
 }
 lazy_static! {
     pub static ref DEFAULT_OFT: OptFileType<'static> = OptFileType::Name("".to_string());
