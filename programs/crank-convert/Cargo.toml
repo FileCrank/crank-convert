@@ -2,6 +2,7 @@
 name = "crank-convert"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
 
 [features]
 default = ["native"]
@@ -15,3 +16,7 @@ convert-proc = { path = "../convert-proc" }
 thiserror = "1.0"
 simple_logger = "2.1"
 log = "0.4"
+
+[build-dependencies]
+proc-macro2 = "1.0"
+walkdir = "2"

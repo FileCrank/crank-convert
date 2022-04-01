@@ -64,7 +64,7 @@ impl Conversion {
 }
 
 /// A HashMap mapping
-pub type ConversionMap = phf::Map<&'static str, Conversion>;
+pub type ConversionMap = phf::Map<&'static str, &'static Conversion>;
 
 pub const CONVERSIONS: phf::Map<&'static str, ConversionMap> = include!("gen/conversion_mappings.rs");
 pub const FILE_TYPE_NAMES: phf::Map<&'static str, &'static FileType> = include!("gen/file_type_name_mappings.rs");
