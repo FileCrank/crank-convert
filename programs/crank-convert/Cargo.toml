@@ -17,6 +17,8 @@ phf = { version = "0.10", features = ["macros"] }
 thiserror = "1.0"
 simple_logger = "2.1"
 log = "0.4"
+convert-proc = { path = "../convert-proc" }
+conversion-types = { git = "https://github.com/FileCrank/conversion-types" }
 
 [build-dependencies]
 proc-macro2 = "1.0"
