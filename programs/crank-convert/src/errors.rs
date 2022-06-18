@@ -1,8 +1,10 @@
+use crate::CrankFileType;
 use thiserror::Error;
-
-pub type Result<T> = std::result::Result<T, ConversionError>;
 
 #[derive(Error, Debug)]
 pub enum ConversionError {
-
+    #[error("No conversion found from {0} to {1}")]
+    ConversionNotFoundError(&'static CrankFileType, &'static CrankFileType),
 }
+
+pub type CrankResult<T> = Result<T, ConversionError>;

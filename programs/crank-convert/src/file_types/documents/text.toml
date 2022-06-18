@@ -1,7 +1,0 @@
-[file-type]
-name = "Text"
-extensions = ["txt", "text"]
-
-[conversions]
-
-[conversions.rtf]

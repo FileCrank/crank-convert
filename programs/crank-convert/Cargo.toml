@@ -2,7 +2,6 @@
 name = "crank-convert"
 version = "0.1.0"
 edition = "2021"
-build = "build.rs"
 
 [features]
 default = ["native"]
@@ -10,16 +9,7 @@ default = ["native"]
 native = []
 
 [dependencies]
-serde = "1.0"
-serde_json = "1.0"
 lazy_static = "1.4.0"
-phf = { version = "0.10", features = ["macros"] }
-thiserror = "1.0"
-simple_logger = "2.1"
-log = "0.4"
+thiserror = "1.0.31"
 convert-proc = { path = "../convert-proc" }
 conversion-types = { git = "https://github.com/FileCrank/conversion-types" }
-
-[build-dependencies]
-proc-macro2 = "1.0"
-walkdir = "2"
