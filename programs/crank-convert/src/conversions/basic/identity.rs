@@ -1,7 +1,7 @@
-use crate::file_data::FileData;
-use crate::CrankResult;
+use crate::{CrankResult, DataHolder};
 
-/// The identity conversion just returns the data that was given to it
-pub fn identity(_: &mut FileData) -> CrankResult<()> {
+#[inline]
+/// The identity conversion makes no changes to the data
+pub fn identity_conversion(_: &mut DataHolder) -> CrankResult<()> {
     Ok(())
 }

@@ -1,21 +1,21 @@
-use crate::conversion::{Conversion, ConversionChain};
-use crate::conversions::basic::identity::identity;
-use crate::file_data::FileData;
-use crate::file_types::crank_file_type::CrankFileType;
-use conversion_types::ConversionQuality;
-use lazy_static::lazy_static;
 use std::collections::HashMap;
+use lazy_static::lazy_static;
+use crate::conversions::basic::identity::identity_conversion;
+use crate::conversions::Conversion;
+use crate::file_types::CrankFile;
 
 lazy_static! {
-    pub static ref TXT: CrankFileType = CrankFileType {
-        name: "Text",
+    pub static ref TXT: CrankFile = CrankFile {
+        name: "TXT",
         extensions: vec!["txt", "text"],
-        conversions: HashMap::from([(
-            "RTF",
-            vec![Conversion {
-                conversion: identity,
-                quality: ConversionQuality::default()
-            }]
-        )])
+        conversions: HashMap::from([
+            ("RTF", vec![
+                Conversion {
+                    conversion: identity_conversion,
+                    quality: Default::default()
+                }
+            ])
+        ])
     };
 }
+

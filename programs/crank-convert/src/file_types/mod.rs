@@ -1,2 +1,4 @@
-pub mod crank_file_type;
+pub mod crank_file;
+pub use crank_file::*;
+
 pub mod document;
