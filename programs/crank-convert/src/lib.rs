@@ -1,17 +1,19 @@
-use crate::conversion::ConversionChain;
+use crate::conversion::{execute_chain, ConversionChain};
 use crate::convertable::CONVERTABLE;
 use crate::errors::ConversionError::ConversionNotFoundError;
 use crate::errors::CrankResult;
-pub use crate::file_data::FileData;
 use crate::file_types::crank_file_type::CrankFileType;
 use std::fs::FileType;
+use crate::file_data::FileData;
+use crate::file_data::DataHolder;
 
 pub mod conversion;
-mod conversions;
+pub mod conversions;
 pub mod convertable;
 pub mod errors;
-mod file_data;
+pub mod file_data;
 pub mod file_types;
+
 
 pub fn find_conversion(
     from: &'static CrankFileType,
@@ -21,13 +23,14 @@ pub fn find_conversion(
     from.conversions.get(to.name)
 }
 
-pub fn convert<'a>(
-    data: &'a mut FileData,
-    to: &'static CrankFileType,
-) -> CrankResult<&'a mut FileData> {
+pub fn convert(data: &mut FileData, to: &'static CrankFileType) -> CrankResult<()> {
     let conv = find_conversion(data.file_type, to);
     match conv {
-        Some(chain) => Ok(data),
+        Some(chain) => {
+            execute_chain(data, chain)?;
+            data.file_type = to;
+            Ok(())
+        },
         None => Err(ConversionNotFoundError(data.file_type, to)),
     }
 }

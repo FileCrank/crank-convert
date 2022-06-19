@@ -10,7 +10,7 @@ lazy_static! {
         name: "RTF",
         extensions: vec!["rtf"],
         conversions: HashMap::from([(
-            "RTF",
+            "TXT",
             vec![Conversion {
                 conversion: identity,
                 quality: ConversionQuality {

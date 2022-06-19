@@ -1,9 +1,10 @@
 use crate::file_data::FileData;
+use crate::CrankResult;
 use conversion_types::ConversionQuality;
 use std::fmt::{Debug, Formatter};
 
 pub struct Conversion {
-    pub conversion: fn(&mut FileData) -> &mut FileData,
+    pub conversion: fn(&mut FileData) -> CrankResult<()>,
     pub quality: ConversionQuality,
 }
 
@@ -17,3 +18,11 @@ impl Debug for Conversion {
 }
 
 pub type ConversionChain = Vec<Conversion>;
+
+/// Go through and execute all of the steps of a conversion chain
+pub fn execute_chain(data: &mut FileData, chain: &'static ConversionChain) -> CrankResult<()> {
+    for conv in chain {
+       (conv.conversion)(data)?;
+    }
+    Ok(())
+}

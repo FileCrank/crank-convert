@@ -8,7 +8,8 @@ macro_rules! test_file_path {
 pub mod basic_conversion_test {
     use crank_convert::file_types::document::rtf::RTF;
     use crank_convert::file_types::document::txt::TXT;
-    use crank_convert::{convert, FileData};
+    use crank_convert::file_data::{FileData, DataHolder};
+    use crank_convert::convert;
     use std::env;
     use std::fs::File;
     use std::io::{BufReader, Read};
@@ -16,14 +17,14 @@ pub mod basic_conversion_test {
     #[test]
     fn test_basic_conversion() {
         let basic_text_file = File::open(test_file_path!("basic_test.txt")).unwrap();
-        let mut buf = BufReader::new(basic_text_file);
+        let mut buf = BufReader::new(DataHolder::File(basic_text_file));
         let mut data = FileData {
             data: buf,
             file_type: &TXT,
         };
-        let res = convert(&mut data, &RTF).unwrap();
-        let mut data = String::new();
-        res.data.read_to_string(&mut data).unwrap();
-        assert!(data.as_str() == "Basic Text File");
+        let mut res = convert(&mut data, &RTF).unwrap();
+        let mut str_data = String::new();
+        data.data.read_to_string(&mut str_data).unwrap();
+        assert!(str_data.as_str() == "Basic Text File");
     }
 }
