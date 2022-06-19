@@ -1,6 +1,6 @@
-use crate::file_types::CrankFile;
+use crate::file_types::CrankFileType;
 
 pub struct CrankOpts {
-    pub from: &'static CrankFile,
-    pub to: &'static CrankFile
+    pub from: &'static CrankFileType,
+    pub to: &'static CrankFileType,
 }
