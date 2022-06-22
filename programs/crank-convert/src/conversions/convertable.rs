@@ -1,4 +1,6 @@
 use crate::file_types::document::{rtf::RTF, txt::TXT};
+use crate::file_types::spreadsheet::{csv::CSV};
+use crate::file_types::interchange::{json::JSON};
 use crate::file_types::CrankFileType;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
@@ -6,7 +8,9 @@ use std::collections::HashMap;
 lazy_static! {
     pub static ref CONVERTABLE: Vec<&'static CrankFileType> = vec![
         &TXT,
-        &RTF
+        &RTF,
+        &JSON,
+        &CSV
     ];
 
     pub static ref EXTENSION_MAPPINGS: HashMap<&'static str, &'static CrankFileType> = {

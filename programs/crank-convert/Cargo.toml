@@ -9,7 +9,11 @@ default = ["native"]
 native = []
 
 [dependencies]
-lazy_static = "1.4.0"
-thiserror = "1.0.31"
 convert-proc = { path = "../convert-proc" }
 conversion-types = { git = "https://github.com/FileCrank/conversion-types" }
+
+lazy_static = "1.4.0"
+thiserror = "1.0.31"
+serde = "1.0"
+serde_json = "1.0"
+csv = "1.1"

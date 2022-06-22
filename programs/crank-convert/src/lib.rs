@@ -8,6 +8,9 @@ pub mod file_types;
 pub mod macros;
 pub mod opts;
 
+mod utils;
+use utils::*;
+
 use crate::conversions::conversion_path::find_conversion;
 use crate::conversions::ConversionChain;
 use crate::CrankError::ConversionNotFoundError;
