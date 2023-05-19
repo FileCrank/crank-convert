@@ -1,7 +1,8 @@
-use crate::{CrankResult, DataHolder};
+use crate::{DataHolder};
+use anyhow::Result;
 
 #[inline]
 /// The identity conversion makes no changes to the data
-pub fn identity_conversion(_: &mut DataHolder) -> CrankResult<()> {
+pub fn identity_conversion(holder: &mut DataHolder) -> Result<()> {
     Ok(())
 }

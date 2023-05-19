@@ -1,9 +1,10 @@
-use crate::{CrankResult, DataHolder};
+use crate::{DataHolder};
+use anyhow::Result;
 use conversion_types::ConversionQuality;
 use std::fmt::{Debug, Display, Formatter};
 
 pub struct Conversion {
-    pub conversion: fn(&mut DataHolder) -> CrankResult<()>,
+    pub conversion: fn(&mut DataHolder) -> Result<()>,
     pub quality: ConversionQuality,
 }
 
